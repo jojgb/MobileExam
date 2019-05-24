@@ -7,6 +7,7 @@ import {Fire} from '../../firebase/index'
 import {logoutUser} from '../../store/actions/auth'
 import Icon from 'react-native-vector-icons/Ionicons'
 
+
 class SideDrawer extends Component {
     logOut = () => {
         Fire.auth().signOut()

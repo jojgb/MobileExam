@@ -3,14 +3,14 @@ import { View, Button, Text, StyleSheet,ImageBackground, KeyboardAvoidingView} f
 import { connect } from 'react-redux'
 
 import {Fire} from '../../firebase/index'
-import { loginUser } from '../../store/actions/index'
+import { loginUser, createData } from '../../store/actions/index'
 
 
-import {startTabs} from '../MainTabs/startMainTabs'
+import { startTabs } from '../MainTabs/startMainTabs'
 import DefaultInput from '../../components/UI/DefaultInput/DefaultInput'
 import HeadingText from '../../components/UI/HeadingText/HeadingText'
 import MainText from '../../components/UI/MainText/MainText'
-import imageBackground from '../../assets/white-cat.jpg'
+import imageBackground from '../../assets/4.jpg'
 import ButtonWithBackground from '../../components/UI/ButtonWithBackground/ButtonWithBackground'
 
 
@@ -25,7 +25,11 @@ class AuthScreen extends Component {
 
     componentDidUpdate(){
         if(this.props.user){
-            startTabs()
+            var places = Fire.database().ref(`dataKariawan`)
+            places.once("value", this.props.onCreateData, err => {
+              console.log(err);
+            });
+            startTabs();
         }
     }
 
@@ -35,29 +39,33 @@ class AuthScreen extends Component {
                 var {uid, email} = user
                 // tembak ke redux
                 this.props.onLoginUser(uid,email)
+                
             }
         })
     }
 
     loginHandler= () => {
-        // Login ke firebase
-        Fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-        .then(res => {
-            var {uid, email} = res.user
+        Fire.auth()
+          .signInWithEmailAndPassword(
+            this.state.email,
+            this.state.password
+          )
+          .then(res => {
+            var { uid, email } = res.user;
             // Login ke aplikasi
-            this.props.onLoginUser(uid,email)
-        })
+            this.props.onLoginUser(uid, email);
+          });
     }
 
     signupHandler = () => {
         if(this.state.email && this.state.password && this.state.confirm){
             if(this.state.password === this.state.confirm){
                 if(this.state.password.trim().length > 6){
-                    //signup dan auto login ke firebase
+                    //signup
                     Fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
                     .then(res => {
                         var {uid, email} = res.user
-                        // login ke aplikasi
+                        // temba ke redux
                         this.props.onLoginUser(uid,email)
                     }).catch(err => {
                         this.setState({error: err.message})
@@ -128,6 +136,7 @@ class AuthScreen extends Component {
         return (
             <ImageBackground source={imageBackground} style={styles.backgroundImage}>
                 <KeyboardAvoidingView behavior='padding' style={styles.container}>
+                    <HeadingText>Jonathan Gabriel Budiman</HeadingText>
                     {headingTextControl}
                     <ButtonWithBackground color='#a5b4ef' onTekan={this.switchAuthModeHandler}>
                         Switch to {this.state.authMode === 'login' ? 'Signup' : 'Login'}
@@ -167,13 +176,14 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        user: state.auth.user.email
+        user: state.auth.user.uid
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onLoginUser: (uid, email) => dispatch(loginUser(uid, email))
+        onLoginUser: (uid, email) => dispatch(loginUser(uid, email)),
+        onCreateData: (items) => dispatch(createData(items))
     }
 }
 

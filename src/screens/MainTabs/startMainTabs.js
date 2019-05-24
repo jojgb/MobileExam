@@ -11,8 +11,8 @@ const startTabs = () => {
             tabs: [
                 {
                     screen: 'jc8reactnative.FindPlaceScreen',
-                    label: 'Find Place',
-                    title: 'Find Place',
+                    label: 'List Karyawan',
+                    title: 'List Karyawan',
                     icon: sources[0],
                     navigatorButtons: {
                         leftButtons: [
@@ -26,8 +26,8 @@ const startTabs = () => {
                 },
                 {
                     screen: 'jc8reactnative.SharePlaceScreen',
-                    label: 'Share Place',
-                    title: 'Share Place',
+                    label: 'Input Data',
+                    title: 'Input Data',
                     icon: sources[1],
                     navigatorButtons: {
                         leftButtons: [
@@ -54,7 +54,7 @@ const backToRoot = () => {
     Navigation.startSingleScreenApp({
         screen: {
             screen: 'jc8reactnative.AuthScreen',
-            title: 'Login'
+            title: 'Authentication'
         }
     })
 }
@@ -62,10 +62,3 @@ const backToRoot = () => {
 module.exports = {
     backToRoot, startTabs
 }
-
-
-
-
-
-
-

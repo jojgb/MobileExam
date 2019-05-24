@@ -18,8 +18,9 @@ class FindPlaceScreen extends Component {
                 })
             }
         }
+        
     }
-
+    
     itemSelectedHandler = (key) => {
         // selPlace = {value, key, image}
         const selPlace = this.props.places.find(place => {
@@ -27,7 +28,7 @@ class FindPlaceScreen extends Component {
         })
         this.props.navigator.push({
             screen: 'jc8reactnative.PlaceDetailScreen',
-            title: selPlace.value,
+            title: selPlace.nama,
             passProps: {
                 selectedPlace: selPlace
             }

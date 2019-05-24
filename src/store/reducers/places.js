@@ -2,6 +2,7 @@ import {
     ADD_PLACE,
     DELETE_PLACE,
     CREATE_DATA
+
 } from '../actions/actionTypes'
 
 const initialState = {
@@ -29,7 +30,6 @@ const reducer = (state = initialState, action) => {
                     return place.key !== action.placeKey
                 })
             }
-
         case CREATE_DATA:
             return {
                 ...state,

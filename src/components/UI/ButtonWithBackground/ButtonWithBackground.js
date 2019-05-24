@@ -1,13 +1,17 @@
-import React from 'react'
-import { TouchableOpacity, Text, View, StyleSheet } from 'react-native'
+import React, { Component } from 'react';
+import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
 
-const buttonWithBackground = props => (
-    <TouchableOpacity onPress={props.onTekan}>
-        <View style={[styles.button, {backgroundColor: props.color}]}>
-            <Text>{props.children}</Text>
-        </View>
-    </TouchableOpacity>
-)
+const buttonWithBackground = props => {
+     return (
+         <TouchableOpacity onPress={props.onTekan}>
+             <View style={[styles.button, {backgroundColor: props.color}]}>
+                 <Text color='white'>
+                    {props.children}
+                 </Text>
+             </View>
+         </TouchableOpacity>
+     )
+}
 
 const styles = StyleSheet.create({
     button: {
@@ -19,4 +23,5 @@ const styles = StyleSheet.create({
     }
 })
 
-export default buttonWithBackground
+
+export default buttonWithBackground;
